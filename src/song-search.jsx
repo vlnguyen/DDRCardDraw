@@ -3,7 +3,6 @@ import { useContext, useState, useRef, useLayoutEffect } from "preact/hooks";
 import { DrawStateContext } from "./draw-state";
 import styles from "./song-search.css";
 import { getDrawnChart } from "./card-draw";
-import { Modal } from "./modal";
 
 function getSuggestions(fuzzySearch, searchTerm, onSelect) {
   if (fuzzySearch && searchTerm) {
@@ -94,7 +93,7 @@ export function SongSearch(props) {
   }, []);
 
   return (
-    <Modal onClose={onCancel}>
+    <div>
       <div className={styles.input}>
         <input
           placeholder="Search for a song"
@@ -114,6 +113,6 @@ export function SongSearch(props) {
       <div className={styles.suggestionSet}>
         {getSuggestions(fuzzySearch, searchTerm, onSongSelect)}
       </div>
-    </Modal>
+    </div>
   );
 }

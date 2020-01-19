@@ -4,6 +4,7 @@ import { useContext, useState } from "preact/hooks";
 import { Icon } from "../icon";
 import { SongSearch } from "../song-search";
 import styles from "./icon-menu.css";
+import { Modal } from "../modal";
 
 export function IconMenu(props) {
   const {
@@ -20,11 +21,13 @@ export function IconMenu(props) {
 
   if (playerPickingPocket) {
     return (
-      <SongSearch
-        autofocus
-        onSongSelect={chart => onPocketPicked(playerPickingPocket, chart)}
-        onCancel={() => setPickingPocket(0)}
-      />
+      <Modal onCancel={() => setPickingPocket(0)}>
+        <SongSearch
+          autofocus
+          onSongSelect={chart => onPocketPicked(playerPickingPocket, chart)}
+          onCancel={() => setPickingPocket(0)}
+        />
+      </Modal>
     );
   }
 
