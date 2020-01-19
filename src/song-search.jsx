@@ -4,7 +4,7 @@ import { DrawStateContext } from "./draw-state";
 import styles from "./song-search.css";
 import { getDrawnChart } from "./card-draw";
 
-function getSuggestions(fuzzySearch, searchTerm, onSelect) {
+function getSuggestions(fuzzySearch, searchTerm, onSelect, updateSearchTerm) {
   if (fuzzySearch && searchTerm) {
     const suggestions = fuzzySearch.search(searchTerm).slice(0, 5);
     if (suggestions.length) {
@@ -16,29 +16,10 @@ function getSuggestions(fuzzySearch, searchTerm, onSelect) {
             <br />
             {song.artist_translation || song.artist}
           </div>
-          {song.single.difficult && (
-            <div
-              className={classNames(styles.chart, styles.dif)}
-              onClick={() =>
-                onSelect(
-                  getDrawnChart(
-                    song,
-                    song.single.difficult,
-                    "difficult",
-                    "difficulty.ace.dif.abbreviation"
-                  )
-                )
-              }
-            >
-              DSP
-              <br />
-              {song.single.difficult.difficulty}
-            </div>
-          )}
           {song.single.expert && (
             <div
               className={classNames(styles.chart, styles.exp)}
-              onClick={() =>
+              onClick={() => {
                 onSelect(
                   getDrawnChart(
                     song,
@@ -46,8 +27,9 @@ function getSuggestions(fuzzySearch, searchTerm, onSelect) {
                     "expert",
                     "difficulty.ace.exp.abbreviation"
                   )
-                )
-              }
+                );
+                updateSearchTerm("");
+              }}
             >
               ESP
               <br />
@@ -57,7 +39,7 @@ function getSuggestions(fuzzySearch, searchTerm, onSelect) {
           {song.single.challenge && (
             <div
               className={classNames(styles.chart, styles.cha)}
-              onClick={() =>
+              onClick={() => {
                 onSelect(
                   getDrawnChart(
                     song,
@@ -65,8 +47,9 @@ function getSuggestions(fuzzySearch, searchTerm, onSelect) {
                     "challenge",
                     "difficulty.ace.cha.abbreviation"
                   )
-                )
-              }
+                );
+                updateSearchTerm("");
+              }}
             >
               CSP
               <br />
@@ -111,7 +94,7 @@ export function SongSearch(props) {
         />
       </div>
       <div className={styles.suggestionSet}>
-        {getSuggestions(fuzzySearch, searchTerm, onSongSelect)}
+        {getSuggestions(fuzzySearch, searchTerm, onSongSelect, updateSearchTerm)}
       </div>
     </div>
   );
