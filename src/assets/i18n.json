@@ -29,6 +29,10 @@
       "usLocked": "Japan-only songs",
       "removed": "Removed songs"
     },
+    "songPoolBuilder": {
+      "show": "Show Song Pool Builder",
+      "hide": "Hide Song Pool Builder"
+    },
     "shockArrows": "Shock Arrows",
     "difficulty": {
       "ace": {

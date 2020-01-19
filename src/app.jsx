@@ -15,9 +15,8 @@ import { AuthManager } from "./auth";
 import { detectedLanguage } from "./utils";
 import { UpdateManager } from "./update-manager";
 import { DrawStateManager } from "./draw-state";
-import { SongSearch } from "./song-search";
-import { SuspectSongs } from "./SuspectSongs";
 import styles from "./app.css";
+import { SongPoolBuilder } from "./song-pool-builder/song-pool-builder";
 
 function App() {
   return (
@@ -25,8 +24,8 @@ function App() {
       <AuthManager>
         <DrawStateManager defaultDataSet="a20">
           <UpdateManager />
+          <SongPoolBuilder />
           <Controls />
-          {/* <SuspectSongs /> */}
           <DrawingList />
           <Footer />
         </DrawStateManager>
