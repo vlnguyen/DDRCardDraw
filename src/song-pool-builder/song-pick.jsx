@@ -9,17 +9,15 @@ import { TranslateContext } from "@denysvuika/preact-translate";
 const isJapanese = detectedLanguage === "ja";
 
 export function SongPick(props) {
-    const { chart } = props;
+    const { chart, index, onRemove } = props;
     const { t } = useContext(TranslateContext);
     const {
         name,
         nameTranslation,
         artist,
         artistTranslation,
-        bpm,
         difficulty,
         level,
-        hasShock,
         abbreviation,
         jacket
     } = chart;
@@ -37,27 +35,20 @@ export function SongPick(props) {
         <div className={rootClassname} >
             <div className={styles.cardCenter} style={jacketBg}>
                 <div className={styles.name} title={nameTranslation}>
-                    {name}
-                </div>
-                {isJapanese ? null : (
-                    <div className={styles.nameTranslation}>{nameTranslation}</div>
-                )}
-                <div className={styles.artist} title={artistTranslation}>
-                    {artist}
+                    {nameTranslation || name}
                 </div>
             </div>
             <div className={styles.cardFooter}>
                 <div className={styles.difficulty}>
                     {t(abbreviation)} {level}
                 </div>
-                <div title={t("shockArrows")}>
-                    <XSquare
-                        size={24}
-                        color="white"
-                        fill="red"
-                        stroke-width="2"
-                    />
-                </div>
+                <XSquare
+                    size={24}
+                    color="white"
+                    fill="red"
+                    stroke-width="2"
+                    onClick={() => onRemove(index)}
+                />
             </div>
         </div>
     );
