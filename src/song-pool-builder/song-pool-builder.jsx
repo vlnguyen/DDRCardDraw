@@ -6,9 +6,12 @@ import globalStyles from "../app.css";
 import styles from "./song-pool-builder.css";
 import { SongSearch } from "../song-search";
 import { SongPick } from "./song-pick";
+import { DrawStateContext } from "../draw-state";
 
 export function SongPoolBuilder() {
     const { t } = useContext(TranslateContext);
+    const { addPlayerPicksToSongPool, playerPicks } = useContext(DrawStateContext);
+
     const [collapsed, setCollapsed] = useState(true);
     const [pickedCharts, setPickedCharts] = useState([]);
     const [playerName, setPlayerName] = useState("");
@@ -24,6 +27,15 @@ export function SongPoolBuilder() {
         newPickedCharts.splice(index, 1);
         setPickedCharts(newPickedCharts);
     }
+
+    const handleAddPicks = () => {
+        addPlayerPicksToSongPool({
+            playerName: playerName,
+            charts: pickedCharts
+        });
+        setPickedCharts([]);
+        setPlayerName("");
+    };
 
     return (
         <div className={collapsed ? " " + styles.collapsed : ""}>
@@ -52,7 +64,7 @@ export function SongPoolBuilder() {
                     </div>
                     {pickedCharts.length > 0 &&
                         <div className={styles.group}>
-                            <button>Add Picks</button>
+                            <button onClick={handleAddPicks}>Add Picks</button>
                         </div>
                     }
                 </div>

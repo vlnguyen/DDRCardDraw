@@ -10,6 +10,8 @@ export class DrawStateManager extends Component {
     super(props);
     this.state = {
       songs: null,
+      playerPicks: [],
+      addPlayerPicksToSongPool: this.addPlayerPicksToSongPool,
       fuzzySearch: null,
       drawings: [],
       dataSetName: props.defaultDataSet,
@@ -78,4 +80,11 @@ export class DrawStateManager extends Component {
       lastDrawFailed: false
     }));
   };
+
+  addPlayerPicksToSongPool = (playerPicks) => {
+    this.setState({
+      playerPicks: [...this.state.playerPicks, playerPicks]
+    }, () => console.log(this.state.playerPicks));
+  };
+
 }
