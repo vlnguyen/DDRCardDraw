@@ -1,6 +1,6 @@
 import { createContext, Component } from "preact";
 import { UnloadHandler } from "./unload-handler";
-import { draw } from "./card-draw";
+import { draw, drawFromSongPool } from "./card-draw";
 import FuzzySearch from "fuzzy-search";
 
 export const DrawStateContext = createContext();
@@ -63,11 +63,12 @@ export class DrawStateManager extends Component {
   };
 
   doDrawing = configData => {
-    if (!this.state.songs) {
+    if (!this.state.songs || !this.state.songPool) {
       return;
     }
 
-    const drawing = draw(this.state.songs, configData);
+    const drawing = drawFromSongPool(this.state.songs, this.state.songPool, configData);
+    console.log(drawing);
     if (!drawing.charts.length) {
       this.setState({
         lastDrawFailed: true
