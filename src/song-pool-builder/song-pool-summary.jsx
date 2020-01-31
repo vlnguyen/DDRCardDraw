@@ -4,7 +4,7 @@ import { SongPick } from "./song-pick";
 import { DrawStateContext } from "../draw-state";
 
 export function SongPoolSummary(props) {
-    const { playerPicks: stateSongPool } = useContext(DrawStateContext);
+    const { songPool: stateSongPool } = useContext(DrawStateContext);
     const [songPool, setSongPool] = useState(
         stateSongPool.map(playerPicks => {
             return { ...playerPicks, active: false };
