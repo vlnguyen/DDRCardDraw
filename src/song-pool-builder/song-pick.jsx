@@ -5,17 +5,12 @@ import { useContext } from "preact/hooks";
 import { XSquare } from "preact-feather";
 import { TranslateContext } from "@denysvuika/preact-translate";
 
-
-const isJapanese = detectedLanguage === "ja";
-
 export function SongPick(props) {
     const { chart, index, onRemove } = props;
     const { t } = useContext(TranslateContext);
     const {
         name,
         nameTranslation,
-        artist,
-        artistTranslation,
         difficulty,
         level,
         abbreviation,
@@ -42,13 +37,15 @@ export function SongPick(props) {
                 <div className={styles.difficulty}>
                     {t(abbreviation)} {level}
                 </div>
-                <XSquare
-                    size={24}
-                    color="white"
-                    fill="red"
-                    stroke-width="2"
-                    onClick={() => onRemove(index)}
-                />
+                {onRemove &&
+                    <XSquare
+                        size={24}
+                        color="white"
+                        fill="red"
+                        stroke-width="2"
+                        onClick={() => onRemove(index)}
+                    />
+                }
             </div>
         </div>
     );

@@ -31,7 +31,8 @@
     },
     "songPoolBuilder": {
       "show": "Show Song Pool Builder",
-      "hide": "Hide Song Pool Builder"
+      "hide": "Hide Song Pool Builder",
+      "viewPool": "View Song Pool"
     },
     "shockArrows": "Shock Arrows",
     "difficulty": {
