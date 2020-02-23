@@ -6,16 +6,13 @@ if (process.env.NODE_ENV === "development") {
 
 import "./firebase";
 import { render } from "preact";
-import { Controls } from "./controls";
-import { DrawingList } from "./drawing-list";
 import { Footer } from "./footer";
 import { AuthManager } from "./auth";
 import { UpdateManager } from "./update-manager";
 import { DrawStateManager } from "./draw-state";
-import { SongSearch } from "./song-search";
-import { SuspectSongs } from "./SuspectSongs";
 import styles from "./app.css";
 import { ConfigStateManager } from "./config-state";
+import { SongPoolBuilder } from "./song-pool-builder/song-pool-builder";
 
 function App() {
   return (
@@ -23,9 +20,7 @@ function App() {
       <ConfigStateManager>
         <DrawStateManager defaultDataSet="a20">
           <UpdateManager />
-          <Controls />
-          {/* <SuspectSongs /> */}
-          <DrawingList />
+          <SongPoolBuilder />
           <Footer />
         </DrawStateManager>
       </ConfigStateManager>

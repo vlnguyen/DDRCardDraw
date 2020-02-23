@@ -1,12 +1,11 @@
 import classNames from "classnames";
-import { useContext, useState, useRef, useLayoutEffect } from "preact/hooks";
+import { useContext, useState, useRef, useLayoutEffect, StateUpdater } from "preact/hooks";
 import { DrawStateContext } from "./draw-state";
 import styles from "./song-search.css";
 import { getDrawnChart } from "./card-draw";
 import { DrawnChart } from "./models/Drawing";
-import { Modal } from "./modal";
 import FuzzySearch from "fuzzy-search";
-import { Song, GameData, Chart } from "./models/SongData";
+import { Song, Chart } from "./models/SongData";
 import { AbbrDifficulty } from "./game-data-utils";
 import { useDifficultyColor } from "./hooks/useDifficultyColor";
 
@@ -33,7 +32,9 @@ function ChartOption({ chart, onClick }: ChartOptionProps) {
 function getSuggestions(
   fuzzySearch: FuzzySearch<Song>,
   searchTerm: string,
-  onSelect: (chart: DrawnChart) => void
+  onSelect: (chart: DrawnChart) => void,
+  updateSearchTerm: StateUpdater<string>,
+  onCancel: () => void
 ) {
   if (fuzzySearch && searchTerm) {
     const suggestions = fuzzySearch.search(searchTerm).slice(0, 5);
@@ -56,7 +57,11 @@ function getSuggestions(
               <ChartOption
                 key={`${chart.style}:${chart.diffClass}:${chart.lvl}`}
                 chart={chart}
-                onClick={() => onSelect(getDrawnChart(song, chart))}
+                onClick={() => {
+                  onSelect(getDrawnChart(song, chart));
+                  updateSearchTerm("");
+                  onCancel();
+                }}
               />
             ))}
         </div>
@@ -85,7 +90,7 @@ export function SongSearch(props: Props) {
   }, []);
 
   return (
-    <Modal onClose={onCancel}>
+    <>
       <div className={styles.input}>
         <input
           placeholder="Search for a song"
@@ -104,9 +109,9 @@ export function SongSearch(props: Props) {
       </div>
       <div className={styles.suggestionSet}>
         {fuzzySearch
-          ? getSuggestions(fuzzySearch, searchTerm, onSongSelect)
+          ? getSuggestions(fuzzySearch, searchTerm, onSongSelect, updateSearchTerm, onCancel)
           : "Search is not loaded right now."}
       </div>
-    </Modal>
+    </>
   );
 }
