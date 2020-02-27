@@ -1,13 +1,9 @@
-import { useContext, useRef, useState, StateUpdater } from "preact/hooks";
+import { useContext, useState, StateUpdater } from "preact/hooks";
 import styles from "./song-pool-builder.css";
 import { DrawStateContext } from "../draw-state";
-import { ConfigStateContext } from "../config-state";
 import { DrawnChart } from "../models/Drawing";
 import { SongPick } from "./song-pick";
-
-function preventDefault(e: Event) {
-    e.preventDefault();
-}
+import { SongPicksValidation, validationKeys, validationKeyConsts } from "../models/SongPicks";
 
 export function SongPoolBuilder(this: any) {
     const { gameData } = useContext(DrawStateContext);
@@ -15,94 +11,283 @@ export function SongPoolBuilder(this: any) {
         return null;
     }
 
-    const form = useRef<HTMLFormElement>();
-    const configState = useContext(ConfigStateContext);
-    const { update: updateState, chartCount } = configState;
-
     const [playerName, setPlayerName] = useState("");
     const [poolsPicks, setPoolsPicks] = useState<(DrawnChart | null)[]>([null, null, null, null, null]);
     const [bracketPicks, setBracketPicks] = useState<(DrawnChart | null)[]>([null, null, null, null, null, null, null]);
-
+    const [songValidation, setSongValidation] = useState<SongPicksValidation>({
+        pools: {
+            [validationKeyConsts.pools.songCount]: false,
+            [validationKeyConsts.common.difficultyClass]: false,
+            [validationKeyConsts.pools.range]: false,
+            [validationKeyConsts.pools.thirteens]: false,
+            [validationKeyConsts.pools.fourteens]: false,
+            [validationKeyConsts.pools.fifteens]: false,
+            [validationKeyConsts.pools.sixteens]: false,
+            [validationKeyConsts.common.duplicates]: true,
+            [validationKeyConsts.common.unlocks]: true,
+            [validationKeyConsts.common.tempUnlocks]: true,
+            [validationKeyConsts.common.extraStages]: true,
+            [validationKeyConsts.common.goldExclusives]: true,
+        },
+        bracket: {
+            [validationKeyConsts.bracket.songCount]: false,
+            [validationKeyConsts.bracket.difficultyClass]: false,
+            [validationKeyConsts.bracket.range]: false,
+            [validationKeyConsts.bracket.fifteens]: true,
+            [validationKeyConsts.bracket.sixteens]: false,
+            [validationKeyConsts.bracket.seventeens]: false,
+            [validationKeyConsts.bracket.eighteens]: false,
+            [validationKeyConsts.bracket.ninteens]: true,
+            [validationKeyConsts.common.duplicates]: true,
+            [validationKeyConsts.common.tempUnlocks]: true,
+            [validationKeyConsts.common.goldExclusives]: true,
+            [validationKeyConsts.common.extraStages]: true,
+        }
+    });
 
     const handleSongSelected = (chart: DrawnChart, index: number, picksGroup: "pools" | "bracket") => {
-        let songPicks: (DrawnChart | null)[];
-        let setSongPicks: StateUpdater<(DrawnChart | null)[]>;
-
         if (picksGroup === "pools") {
-            songPicks = [...poolsPicks];
-            setSongPicks = setPoolsPicks;
+            const newPoolsPicks = [...poolsPicks];
+            newPoolsPicks.splice(index, 1, chart);
+            setPoolsPicks(newPoolsPicks);
+            validatePicks(newPoolsPicks, bracketPicks);
         }
         else if (picksGroup === "bracket") {
-            songPicks = [...bracketPicks];
-            setSongPicks = setBracketPicks;
+            const newBracketPicks = [...bracketPicks];
+            newBracketPicks.splice(index, 1, chart);
+            setBracketPicks(newBracketPicks);
+            validatePicks(poolsPicks, newBracketPicks);
         }
+    };
 
-        songPicks!.splice(index, 1, chart);
-        setSongPicks!(songPicks!);
+    const validatePicks = (picksPools: (DrawnChart | null)[], picksBracket: (DrawnChart | null)[]) => {
+        const vObj = { ...songValidation };
+        console.log(picksPools, picksBracket);
+
+        /** Validate levels in the pools picks range only from 13-16. */
+        let poolsLevelRange = true;
+        let poolsDifficultyClass = true;
+        let poolsContainsDuplicates = false;
+        const poolsLevels = new Map<number, number>([
+            [13, 0],
+            [14, 0],
+            [15, 0],
+            [16, 0]
+        ]);
+        picksPools.forEach(c => {
+            if (c) {
+                // If the chart is in the wrong level range
+                if (c.level < 13 || c.level > 16) {
+                    // set the level range as invalid
+                    poolsLevelRange = false;
+                }
+                // Otherwise if the chart is in the right level range
+                else {
+                    // add 1 to the count of songs at that level
+                    poolsLevels.set(c.level, poolsLevels.get(c.level)! + 1)
+                }
+
+                // If the chart is not an ESP or CSP chart
+                if (c.difficultyClass !== 'challenge' && c.difficultyClass !== 'expert') {
+                    // set the difficulty classes as invalid
+                    poolsDifficultyClass = false;
+                }
+
+                // Use the name/artist to detect duplicates.
+                // Submitting the same song but different charts is okay.
+                if (picksPools.some(poolsChart => poolsChart &&
+                    c.difficultyClass === poolsChart.difficultyClass &&
+                    c.name === poolsChart.name &&
+                    c.artist === poolsChart.artist)) {
+                    // Mark that a duplicate has been detected
+                    poolsContainsDuplicates = true;
+                }
+            }
+        })
+
+        /** Validate levels in the bracket picks range only from 15-19. */
+        let bracketLevelRange = true;
+        let bracketDifficultyClass = true;
+        let bracketContainsDuplicates = false;
+        const bracketLevels = new Map<number, number>([
+            [15, 0],
+            [16, 0],
+            [17, 0],
+            [18, 0],
+            [19, 0]
+        ]);
+        picksBracket.forEach(c => {
+            if (c) {
+                // If the chart is in the wrong level range
+                if (c.level < 15 || c.level > 19) {
+                    // set the level range as invalid
+                    bracketLevelRange = false;
+                }
+                // Otherwise if the chart is in the right level range
+                else {
+                    // add 1 to the count of songs at that level
+                    bracketLevels.set(c.level, bracketLevels.get(c.level)! + 1)
+                }
+
+                // If the chart is not an ESP or CSP chart
+                if (c.difficultyClass !== 'challenge' && c.difficultyClass !== 'expert') {
+                    // set the difficulty classes as invalid
+                    bracketDifficultyClass = false;
+                }
+
+                // Use the name/artist to detect duplicates.
+                // Submitting the same song but different charts is okay.
+                if (bracketPicks.some(bracketChart => bracketChart &&
+                    c.difficultyClass === bracketChart.difficultyClass &&
+                    c.name === bracketChart.name &&
+                    c.artist === bracketChart.artist)) {
+                    // Mark that a duplicate has been detected
+                    bracketContainsDuplicates = false;
+                }
+            }
+        })
+
+        /* Pools - Pick 5 songs */
+        vObj.pools[validationKeyConsts.pools.songCount] = picksPools.filter(c => c !== null).length === 5;
+        vObj.pools[validationKeyConsts.common.difficultyClass] = poolsDifficultyClass;
+        vObj.pools[validationKeyConsts.pools.range] = poolsLevelRange;
+        vObj.pools[validationKeyConsts.pools.thirteens] = poolsLevels.get(13)! >= 1 && poolsLevels.get(13)! <= 2;
+        vObj.pools[validationKeyConsts.pools.fourteens] = poolsLevels.get(14)! >= 1 && poolsLevels.get(14)! <= 2;
+        vObj.pools[validationKeyConsts.pools.fifteens] = poolsLevels.get(15)! >= 1 && poolsLevels.get(15)! <= 2;
+        vObj.pools[validationKeyConsts.pools.sixteens] = poolsLevels.get(16)! >= 1 && poolsLevels.get(16)! <= 2;
+        vObj.pools[validationKeyConsts.common.duplicates] = !poolsContainsDuplicates;
+        vObj.pools[validationKeyConsts.common.unlocks] = !picksPools.filter(c => c !== null).some(c => chartContainsFlag(c!, "unlock"));
+        vObj.pools[validationKeyConsts.common.tempUnlocks] = !picksPools.filter(c => c !== null).some(c => chartContainsFlag(c!, "tempUnlock"));
+        vObj.pools[validationKeyConsts.common.extraStages] = !picksPools.filter(c => c !== null).some(c => chartContainsFlag(c!, "extraExclusive"));
+        vObj.pools[validationKeyConsts.common.goldExclusives] = !picksPools.filter(c => c !== null).some(c => chartContainsFlag(c!, "goldExclusive"));
+
+        /* Bracket - Pick 7 songs */
+        vObj.bracket[validationKeyConsts.bracket.songCount] = picksBracket.filter(c => c !== null).length === 7;
+        vObj.bracket[validationKeyConsts.common.difficultyClass] = bracketDifficultyClass;
+        vObj.bracket[validationKeyConsts.bracket.range] = bracketLevelRange;
+        vObj.bracket[validationKeyConsts.bracket.fifteens] = bracketLevels.get(15)! >= 0 && bracketLevels.get(15)! <= 1;
+        vObj.bracket[validationKeyConsts.bracket.sixteens] = bracketLevels.get(16)! >= 2 && bracketLevels.get(16)! <= 4;
+        vObj.bracket[validationKeyConsts.bracket.seventeens] = bracketLevels.get(17)! >= 1 && bracketLevels.get(17)! <= 2;
+        vObj.bracket[validationKeyConsts.bracket.eighteens] = bracketLevels.get(18)! >= 1 && bracketLevels.get(18)! <= 2;
+        vObj.bracket[validationKeyConsts.bracket.ninteens] = bracketLevels.get(19)! >= 0 && bracketLevels.get(19)! <= 1;
+        vObj.bracket[validationKeyConsts.common.duplicates] = !bracketContainsDuplicates;
+        vObj.bracket[validationKeyConsts.common.tempUnlocks] = !picksBracket.filter(c => c !== null).some(c => chartContainsFlag(c!, "tempUnlock"));
+        vObj.bracket[validationKeyConsts.common.extraStages] = !picksBracket.filter(c => c !== null).some(c => chartContainsFlag(c!, "extraExclusive"));
+        vObj.bracket[validationKeyConsts.common.goldExclusives] = !picksBracket.filter(c => c !== null).some(c => chartContainsFlag(c!, "goldExclusive"));
+
+        /* Bracket - Pick 7 songs */
+        vObj.bracket["Pick 7 songs"] = picksBracket.filter(c => c !== null).length === 7;
+
+        setSongValidation(vObj);
+    };
+
+    const chartContainsFlag = (drawnChart: DrawnChart, flag: string): boolean => {
+        console.log("Chart Contains Flag (function)", drawnChart, flag);
+        const song = gameData.songs.filter(song => song.name === drawnChart.name && song.artist === drawnChart.artist)![0];
+        if (song.flags && song.flags.some(songFlag => songFlag === flag)) {
+            return true;
+        }
+        const songChart = song.charts.filter(c => c.diffClass === drawnChart.difficultyClass)![0];
+        if (songChart.flags && songChart.flags.some(songFlag => songFlag === flag)) {
+            return true;
+        }
+        return false;
+    };
+
+    const renderPlayerNameInput = () => {
+        return (
+            <>
+                <strong>Player Name</strong>
+                <input
+                    type="text"
+                    value={playerName}
+                    placeholder="(e-Amuse Name)"
+                    onInput={e => setPlayerName(e.currentTarget.value)}
+                />
+            </>
+        );
+    };
+
+    const renderPoolsPicksInput = () => {
+        return (
+            <>
+                <strong>Player Picks - Pools</strong>
+                {poolsPicks.map((chart, index) =>
+                    <SongPick
+                        chart={chart}
+                        index={index}
+                        onChartSelected={(chart, index) => {
+                            handleSongSelected(chart, index, "pools");
+                        }}
+                    />
+                )}
+            </>
+        );
+    }
+
+    const renderPoolsPicksRules = () => {
+        return (
+            <>
+                <strong>Song Pick Rules - Pools</strong>
+                {validationKeys.pools.map(validationKey =>
+                    <div>
+                        {songValidation.pools[validationKey]
+                            ? <span style={{ color: "green" }}>&#10003;</span>
+                            : <span style={{ color: "red" }}>&#10005;</span>
+                        } {validationKey}
+                    </div>
+                )}
+            </>
+        );
+    }
+
+    const renderBracketPicksInput = () => {
+        return (
+            <>
+                <strong>Player Picks - Double Elimination</strong>
+                {bracketPicks.map((chart, index) =>
+                    <SongPick
+                        chart={chart}
+                        index={index}
+                        onChartSelected={(chart, index) => {
+                            handleSongSelected(chart, index, "bracket");
+                        }}
+                    />
+                )}
+            </>
+        );
+    };
+
+    const renderBracketPicksRules = () => {
+        return (
+            <>
+                <strong>Song Pick Rules - Double Elimination</strong>
+                {validationKeys.bracket.map(validationKey =>
+                    <div>
+                        {songValidation.bracket[validationKey]
+                            ? <span style={{ color: "green" }}>&#10003;</span>
+                            : <span style={{ color: "red" }}>&#10005;</span>
+                        } {validationKey}
+                    </div>
+                )}
+            </>
+        );
     };
 
     return (
-        <form
-            ref={form}
-            className={styles.form}
-            onSubmit={preventDefault}
-        >
-            <section className={styles.columns}>
-                <div className={styles.column}>
-                    <div className={styles.group}>
-                        <strong>Player Name</strong>
-                        <input
-                            type="text"
-                            value={playerName}
-                            placeholder="(e-Amuse Name)"
-                            onInput={e => setPlayerName(e.currentTarget.value)}
-                        />
-                    </div>
-                    <div className={styles.group}>
-                        <strong>Player Picks - Pools</strong>
-                        {poolsPicks.map((chart, index) =>
-                            <SongPick
-                                chart={chart}
-                                index={index}
-                                onChartSelected={(chart, index) => {
-                                    handleSongSelected(chart, index, "pools");
-                                }}
-                            />)}
-                    </div>
-                    <div className={styles.group}>
-                        <strong>Player Picks - Double Elimination</strong>
-                        {bracketPicks.map((chart, index) =>
-                            <SongPick
-                                chart={chart}
-                                index={index}
-                                onChartSelected={(chart, index) => {
-                                    handleSongSelected(chart, index, "bracket");
-                                }}
-                            />
-                        )}
-                    </div>
-                </div>
-                <div className={styles.column}>
-                    <div className={styles.group}>
-                        <strong>Song Pick Rules - Pools</strong>
-                        <ul>
-                            <li>Pick 5 songs.</li>
-                            <li>Follow the difficulty requirements.</li>
-                        </ul>
-                    </div>
-                    <div className={styles.group}>
-                        <strong>Song Pick Rules - Double Elimination</strong>
-                        <ul>
-                            <li>Pick 7 songs.</li>
-                            <li>Follow the difficulty requirements.</li>
-                        </ul>
-                    </div>
-                    <div className={styles.group}>
-                        <strong>Download Song Picks</strong>
-                        <button>Download</button>
-                    </div>
-                </div>
-            </section>
-        </form>
+        <div className={styles.songPoolBuilder}>
+            <div className={styles.box}>
+                {renderPoolsPicksInput()}
+            </div>
+            <div className={styles.box}>
+                {renderPoolsPicksRules()}
+            </div>
+            <div className={styles.box}>
+                {renderBracketPicksInput()}
+            </div>
+            <div className={styles.box}>
+                {renderBracketPicksRules()}
+            </div>
+        </div>
     );
 }

@@ -1,7 +1,12 @@
-.form {
-  flex: 0 0 auto;
-  padding-bottom: 10px;
-  padding-left: 8px;
+.songPoolBuilder {
+  padding: 12px;
+  display: grid;
+  grid-template-columns: 500px 100%;
+  grid-gap: 10px;
+}
+
+.box {
+  border-radius: 5px;
 }
 
 input[type="text"], button {
@@ -24,25 +29,9 @@ input[type="text"], button {
   flex: 1 0 auto;
 }
 
-.collapsed .column:not(:last-child) {
-  display: none;
-}
-
 .group {
   display: flex;
   flex-direction: column;
   align-items: left;
   padding: 10px;
-}
-
-.collapsed .group {
-  display: none;
-}
-
-.hidden {
-  display: none;
-}
-
-.buttons {
-  text-align: right;
 }
