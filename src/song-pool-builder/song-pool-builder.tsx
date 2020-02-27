@@ -50,17 +50,17 @@ export function SongPoolBuilder(this: any) {
             const newPoolsPicks = [...poolsPicks];
             newPoolsPicks.splice(index, 1, chart);
             setPoolsPicks(newPoolsPicks);
-            validatePicks(newPoolsPicks, bracketPicks);
+            setPicksValidationObject(newPoolsPicks, bracketPicks);
         }
         else if (picksGroup === "bracket") {
             const newBracketPicks = [...bracketPicks];
             newBracketPicks.splice(index, 1, chart);
             setBracketPicks(newBracketPicks);
-            validatePicks(poolsPicks, newBracketPicks);
+            setPicksValidationObject(poolsPicks, newBracketPicks);
         }
     };
 
-    const validatePicks = (picksPools: (DrawnChart | null)[], picksBracket: (DrawnChart | null)[]) => {
+    const setPicksValidationObject = (picksPools: (DrawnChart | null)[], picksBracket: (DrawnChart | null)[]) => {
         const vObj = { ...songValidation };
         console.log(picksPools, picksBracket);
 
@@ -74,7 +74,7 @@ export function SongPoolBuilder(this: any) {
             [15, 0],
             [16, 0]
         ]);
-        picksPools.forEach(c => {
+        picksPools.forEach((c, cIndex) => {
             if (c) {
                 // If the chart is in the wrong level range
                 if (c.level < 13 || c.level > 16) {
@@ -95,10 +95,12 @@ export function SongPoolBuilder(this: any) {
 
                 // Use the name/artist to detect duplicates.
                 // Submitting the same song but different charts is okay.
-                if (picksPools.some(poolsChart => poolsChart &&
-                    c.difficultyClass === poolsChart.difficultyClass &&
-                    c.name === poolsChart.name &&
-                    c.artist === poolsChart.artist)) {
+                if (picksPools
+                    .filter((p, pIndex) => p !== null && pIndex !== cIndex)
+                    .some(poolsChart => poolsChart &&
+                        c.difficultyClass === poolsChart.difficultyClass &&
+                        c.name === poolsChart.name &&
+                        c.artist === poolsChart.artist)) {
                     // Mark that a duplicate has been detected
                     poolsContainsDuplicates = true;
                 }
@@ -116,7 +118,7 @@ export function SongPoolBuilder(this: any) {
             [18, 0],
             [19, 0]
         ]);
-        picksBracket.forEach(c => {
+        picksBracket.forEach((c, cIndex) => {
             if (c) {
                 // If the chart is in the wrong level range
                 if (c.level < 15 || c.level > 19) {
@@ -137,10 +139,12 @@ export function SongPoolBuilder(this: any) {
 
                 // Use the name/artist to detect duplicates.
                 // Submitting the same song but different charts is okay.
-                if (bracketPicks.some(bracketChart => bracketChart &&
-                    c.difficultyClass === bracketChart.difficultyClass &&
-                    c.name === bracketChart.name &&
-                    c.artist === bracketChart.artist)) {
+                if (bracketPicks
+                    .filter((p, pIndex) => p !== null && pIndex !== cIndex)
+                    .some(bracketChart => bracketChart &&
+                        c.difficultyClass === bracketChart.difficultyClass &&
+                        c.name === bracketChart.name &&
+                        c.artist === bracketChart.artist)) {
                     // Mark that a duplicate has been detected
                     bracketContainsDuplicates = false;
                 }
@@ -175,14 +179,10 @@ export function SongPoolBuilder(this: any) {
         vObj.bracket[validationKeyConsts.common.extraStages] = !picksBracket.filter(c => c !== null).some(c => chartContainsFlag(c!, "extraExclusive"));
         vObj.bracket[validationKeyConsts.common.goldExclusives] = !picksBracket.filter(c => c !== null).some(c => chartContainsFlag(c!, "goldExclusive"));
 
-        /* Bracket - Pick 7 songs */
-        vObj.bracket["Pick 7 songs"] = picksBracket.filter(c => c !== null).length === 7;
-
         setSongValidation(vObj);
     };
 
     const chartContainsFlag = (drawnChart: DrawnChart, flag: string): boolean => {
-        console.log("Chart Contains Flag (function)", drawnChart, flag);
         const song = gameData.songs.filter(song => song.name === drawnChart.name && song.artist === drawnChart.artist)![0];
         if (song.flags && song.flags.some(songFlag => songFlag === flag)) {
             return true;
@@ -194,10 +194,18 @@ export function SongPoolBuilder(this: any) {
         return false;
     };
 
+    const songPicksAreValid = () => {
+        console.log(songValidation);
+        const poolsValid = Object.keys(songValidation.pools).every(poolsKey => songValidation.pools[poolsKey]);
+        const bracketValid = Object.keys(songValidation.bracket).every(bracketKey => songValidation.bracket[bracketKey]);
+        console.log(poolsValid, bracketValid);
+        return poolsValid && bracketValid;
+    }
+
     const renderPlayerNameInput = () => {
         return (
             <>
-                <strong>Player Name</strong>
+                <strong>Player Name</strong><br />
                 <input
                     type="text"
                     value={playerName}
@@ -286,7 +294,9 @@ export function SongPoolBuilder(this: any) {
                 {renderBracketPicksInput()}
             </div>
             <div className={styles.box}>
-                {renderBracketPicksRules()}
+                {renderBracketPicksRules()}<br /><br />
+                {renderPlayerNameInput()}<br /><br />
+                <button disabled={!songPicksAreValid()}>Download</button>
             </div>
         </div>
     );
