@@ -21,7 +21,7 @@ function App() {
         <DrawStateManager defaultDataSet="a20">
           <UpdateManager />
           <SongPoolBuilder />
-          <Footer />
+          {/* <Footer /> */}
         </DrawStateManager>
       </ConfigStateManager>
     </AuthManager>
