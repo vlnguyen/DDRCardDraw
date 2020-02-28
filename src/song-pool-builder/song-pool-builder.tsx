@@ -211,7 +211,8 @@ export function SongPoolBuilder(this: any) {
                     value={playerName}
                     placeholder="(e-Amuse Name)"
                     onInput={e => setPlayerName(e.currentTarget.value)}
-                />
+                /><br /><br />
+                <button disabled={!songPicksAreValid()}>Download</button>
             </>
         );
     };
@@ -295,8 +296,12 @@ export function SongPoolBuilder(this: any) {
             </div>
             <div className={styles.box}>
                 {renderBracketPicksRules()}<br /><br />
-                {renderPlayerNameInput()}<br /><br />
-                <button disabled={!songPicksAreValid()}>Download</button>
+            </div>
+            <div className={styles.box}>
+
+            </div>
+            <div className={styles.box}>
+                {renderPlayerNameInput()}
             </div>
         </div>
     );
