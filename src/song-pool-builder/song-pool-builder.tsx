@@ -146,7 +146,7 @@ export function SongPoolBuilder(this: any) {
                         c.name === bracketChart.name &&
                         c.artist === bracketChart.artist)) {
                     // Mark that a duplicate has been detected
-                    bracketContainsDuplicates = false;
+                    bracketContainsDuplicates = true;
                 }
             }
         })
