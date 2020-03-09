@@ -1,0 +1,141 @@
+{
+    "playerName": "VINCENT!",
+    "poolsActive": true,
+    "poolsPicks": [
+        {
+            "name": "輪廻転生",
+            "jacket": "Rinnetensei.png",
+            "nameTranslation": "Rinnetensei",
+            "artist": "まふまふ",
+            "artistTranslation": "Mafumafu",
+            "bpm": "196",
+            "difficultyClass": "expert",
+            "level": 13,
+            "hasShock": false
+        },
+        {
+            "name": "Starlight Fantasia",
+            "jacket": "Starlight Fantasia.png",
+            "nameTranslation": "",
+            "artist": "TAG",
+            "artistTranslation": "",
+            "bpm": "148",
+            "difficultyClass": "expert",
+            "level": 14,
+            "hasShock": false
+        },
+        {
+            "name": "Procyon",
+            "jacket": "Procyon.png",
+            "nameTranslation": "",
+            "artist": "矢鴇つかさ",
+            "artistTranslation": "Tsukasa Yatoki",
+            "bpm": "160",
+            "difficultyClass": "expert",
+            "level": 15,
+            "hasShock": false
+        },
+        {
+            "name": "ナイト・オブ・ナイツ",
+            "jacket": "Night of Knights.png",
+            "nameTranslation": "Night of Knights",
+            "artist": "ビートまりお（COOL&CREATE）",
+            "artistTranslation": "Beat Mario (COOL&CREATE)",
+            "bpm": "180",
+            "difficultyClass": "challenge",
+            "level": 16,
+            "hasShock": false
+        },
+        {
+            "name": "ナイト・オブ・ナイツ",
+            "jacket": "Night of Knights.png",
+            "nameTranslation": "Night of Knights",
+            "artist": "ビートまりお（COOL&CREATE）",
+            "artistTranslation": "Beat Mario (COOL&CREATE)",
+            "bpm": "180",
+            "difficultyClass": "expert",
+            "level": 15,
+            "hasShock": false
+        }
+    ],
+    "bracketActive": false,
+    "bracketPicks": [
+        {
+            "name": "Monkey Business",
+            "jacket": "Monkey Business.png",
+            "nameTranslation": "",
+            "artist": "kors k",
+            "artistTranslation": "",
+            "bpm": "80-160",
+            "difficultyClass": "challenge",
+            "level": 16,
+            "hasShock": false
+        },
+        {
+            "name": "snow prism",
+            "jacket": "snow prism.png",
+            "nameTranslation": "",
+            "artist": "Qrispy Joybox",
+            "artistTranslation": "",
+            "bpm": "196",
+            "difficultyClass": "challenge",
+            "level": 16,
+            "hasShock": false
+        },
+        {
+            "name": "EGOISM 440",
+            "jacket": "EGOISM 440.png",
+            "nameTranslation": "",
+            "artist": "U1 High-Speed",
+            "artistTranslation": "",
+            "bpm": "55-440",
+            "difficultyClass": "challenge",
+            "level": 19,
+            "hasShock": false
+        },
+        {
+            "name": "Elemental Creation",
+            "jacket": "Elemental Creation.png",
+            "nameTranslation": "",
+            "artist": "dj TAKA meets DJ YOSHITAKA",
+            "artistTranslation": "",
+            "bpm": "106-424",
+            "difficultyClass": "challenge",
+            "level": 18,
+            "hasShock": false
+        },
+        {
+            "name": "Elemental Creation",
+            "jacket": "Elemental Creation.png",
+            "nameTranslation": "",
+            "artist": "dj TAKA meets DJ YOSHITAKA",
+            "artistTranslation": "",
+            "bpm": "106-424",
+            "difficultyClass": "expert",
+            "level": 17,
+            "hasShock": false
+        },
+        {
+            "name": "UNBELIEVABLE (Sparky remix)",
+            "jacket": "UNBELIEVABLE (Sparky remix).png",
+            "nameTranslation": "",
+            "artist": "jun feat. Sarah-Jane",
+            "artistTranslation": "",
+            "bpm": "88-175",
+            "difficultyClass": "expert",
+            "level": 15,
+            "hasShock": false
+        },
+        {
+            "name": "海神",
+            "jacket": "Wadatsumi.png",
+            "nameTranslation": "Wadatsumi",
+            "artist": "兎々",
+            "artistTranslation": "Totto",
+            "bpm": "159",
+            "difficultyClass": "expert",
+            "level": 16,
+            "hasShock": false
+        }
+    ]
+}

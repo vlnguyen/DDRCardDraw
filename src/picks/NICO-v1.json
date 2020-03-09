@@ -1,0 +1,141 @@
+{
+    "playerName": "NICO",
+    "poolsActive": true,
+    "poolsPicks": [
+        {
+            "name": "POSSESSION(EDP Live Mix)",
+            "jacket": "POSSESSION(EDP Live Mix).png",
+            "nameTranslation": "",
+            "artist": "TAG underground",
+            "artistTranslation": "",
+            "bpm": "185",
+            "difficultyClass": "expert",
+            "level": 16,
+            "hasShock": false
+        },
+        {
+            "name": "Astrogazer",
+            "jacket": "Astrogazer.png",
+            "nameTranslation": "",
+            "artist": "DJ TOTTO",
+            "artistTranslation": "",
+            "bpm": "154",
+            "difficultyClass": "expert",
+            "level": 15,
+            "hasShock": false
+        },
+        {
+            "name": "Plan 8",
+            "jacket": "Plan 8.png",
+            "nameTranslation": "",
+            "artist": "Ryu☆",
+            "artistTranslation": "",
+            "bpm": "212",
+            "difficultyClass": "expert",
+            "level": 14,
+            "hasShock": false
+        },
+        {
+            "name": "DoLL",
+            "jacket": "DoLL.png",
+            "nameTranslation": "",
+            "artist": "ＴЁЯＲＡ",
+            "artistTranslation": "",
+            "bpm": "170",
+            "difficultyClass": "challenge",
+            "level": 13,
+            "hasShock": false
+        },
+        {
+            "name": "ACROSS WORLD",
+            "jacket": "ACROSS WORLD.png",
+            "nameTranslation": "",
+            "artist": "Royz",
+            "artistTranslation": "",
+            "bpm": "185",
+            "difficultyClass": "challenge",
+            "level": 14,
+            "hasShock": false
+        }
+    ],
+    "bracketActive": false,
+    "bracketPicks": [
+        {
+            "name": "London EVOLVED ver.C",
+            "jacket": "London EVOLVED ver.C.png",
+            "nameTranslation": "",
+            "artist": "TAG underground",
+            "artistTranslation": "",
+            "bpm": "170-340",
+            "difficultyClass": "challenge",
+            "level": 17,
+            "hasShock": false
+        },
+        {
+            "name": "PARANOiA KCET ～clean mix～",
+            "jacket": "PARANOiA KCET ～clean mix～.png",
+            "nameTranslation": "",
+            "artist": "2MB",
+            "artistTranslation": "",
+            "bpm": "180",
+            "difficultyClass": "challenge",
+            "level": 15,
+            "hasShock": false
+        },
+        {
+            "name": "Cosy Catastrophe",
+            "jacket": "Cosy Catastrophe.png",
+            "nameTranslation": "",
+            "artist": "SYUNN",
+            "artistTranslation": "",
+            "bpm": "90-360",
+            "difficultyClass": "expert",
+            "level": 16,
+            "hasShock": false
+        },
+        {
+            "name": "Another Phase",
+            "jacket": "Another Phase.png",
+            "nameTranslation": "",
+            "artist": "TAG",
+            "artistTranslation": "",
+            "bpm": "160",
+            "difficultyClass": "challenge",
+            "level": 16,
+            "hasShock": true
+        },
+        {
+            "name": "Over The “Period”",
+            "jacket": "Over The “Period”.png",
+            "nameTranslation": "",
+            "artist": "TAG underground overlay",
+            "artistTranslation": "",
+            "bpm": "23-840",
+            "difficultyClass": "expert",
+            "level": 18,
+            "hasShock": false
+        },
+        {
+            "name": "Valkyrie dimension",
+            "jacket": "Valkyrie dimension.png",
+            "nameTranslation": "",
+            "artist": "Spriggan",
+            "artistTranslation": "",
+            "bpm": "47-744",
+            "difficultyClass": "expert",
+            "level": 18,
+            "hasShock": false
+        },
+        {
+            "name": "ENDYMION",
+            "jacket": "ENDYMION.png",
+            "nameTranslation": "",
+            "artist": "fallen shepherd ft. RabbiTon Strings",
+            "artistTranslation": "",
+            "bpm": "110-880",
+            "difficultyClass": "challenge",
+            "level": 19,
+            "hasShock": false
+        }
+    ]
+}

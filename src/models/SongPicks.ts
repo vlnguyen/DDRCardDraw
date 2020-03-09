@@ -2,8 +2,10 @@ import { DrawnChart } from "./Drawing";
 
 export interface SongPicks {
     playerName: string;
-    poolsPicks: DrawnChart[];
-    bracketPicks: DrawnChart[]
+    poolsActive: boolean;
+    poolsPicks: (DrawnChart | null)[];
+    bracketActive: boolean;
+    bracketPicks: (DrawnChart | null)[]
 }
 
 export const validationKeyConsts = {

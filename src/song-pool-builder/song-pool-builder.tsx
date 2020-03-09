@@ -3,7 +3,7 @@ import styles from "./song-pool-builder.css";
 import { DrawStateContext } from "../draw-state";
 import { DrawnChart } from "../models/Drawing";
 import { SongPick } from "./song-pick";
-import { SongPicksValidation, validationKeys, validationKeyConsts } from "../models/SongPicks";
+import { SongPicksValidation, validationKeys, validationKeyConsts, SongPicks } from "../models/SongPicks";
 
 export function SongPoolBuilder(this: any) {
     const { gameData } = useContext(DrawStateContext);
@@ -60,9 +60,21 @@ export function SongPoolBuilder(this: any) {
         }
     };
 
+    const download = (filename: string, text: string) => {
+        var element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+        element.setAttribute('download', filename);
+
+        element.style.display = 'none';
+        document.body.appendChild(element);
+
+        element.click();
+
+        document.body.removeChild(element);
+    }
+
     const setPicksValidationObject = (picksPools: (DrawnChart | null)[], picksBracket: (DrawnChart | null)[]) => {
         const vObj = { ...songValidation };
-        console.log(picksPools, picksBracket);
 
         /** Validate levels in the pools picks range only from 13-16. */
         let poolsLevelRange = true;
@@ -195,10 +207,8 @@ export function SongPoolBuilder(this: any) {
     };
 
     const songPicksAreValid = () => {
-        console.log(songValidation);
         const poolsValid = Object.keys(songValidation.pools).every(poolsKey => songValidation.pools[poolsKey]);
         const bracketValid = Object.keys(songValidation.bracket).every(bracketKey => songValidation.bracket[bracketKey]);
-        console.log(poolsValid, bracketValid);
         return poolsValid && bracketValid;
     }
 
@@ -212,7 +222,22 @@ export function SongPoolBuilder(this: any) {
                     placeholder="(e-Amuse Name)"
                     onInput={e => setPlayerName(e.currentTarget.value)}
                 /><br /><br />
-                <button disabled={!songPicksAreValid()}>Download</button>
+                <button
+                    disabled={!songPicksAreValid()}
+                    onClick={() => {
+                        const playerPicks: SongPicks = {
+                            playerName: playerName,
+                            poolsActive: true,
+                            poolsPicks: poolsPicks.filter(pick => pick !== null),
+                            bracketActive: false,
+                            bracketPicks: bracketPicks.filter(pick => pick !== null),
+                        };
+                        const formattedPlayerName = playerName.replace(/[^0-9a-z]/gi, '').toUpperCase();
+                        download(`${formattedPlayerName}-v1.txt`, JSON.stringify(playerPicks))
+                    }}
+                >
+                    Download
+                </button>
             </>
         );
     };

@@ -1,0 +1,141 @@
+{
+    "playerName": "JBEAN",
+    "poolsActive": true,
+    "poolsPicks": [
+        {
+            "name": "隅田川夏恋歌",
+            "jacket": "SUMIDAGAWA KARENKA.png",
+            "nameTranslation": "SUMIDAGAWA KARENKA",
+            "artist": "seiya-murai feat.ALT",
+            "artistTranslation": "",
+            "bpm": "180",
+            "difficultyClass": "challenge",
+            "level": 16,
+            "hasShock": false
+        },
+        {
+            "name": "MAX 300",
+            "jacket": "MAX 300.png",
+            "nameTranslation": "",
+            "artist": "Ω",
+            "artistTranslation": "",
+            "bpm": "300",
+            "difficultyClass": "expert",
+            "level": 15,
+            "hasShock": false
+        },
+        {
+            "name": "Adularia",
+            "jacket": "Adularia.png",
+            "nameTranslation": "",
+            "artist": "DJ TOTTO",
+            "artistTranslation": "",
+            "bpm": "180",
+            "difficultyClass": "expert",
+            "level": 14,
+            "hasShock": false
+        },
+        {
+            "name": "Ishtar",
+            "jacket": "Ishtar.png",
+            "nameTranslation": "",
+            "artist": "劇団レコード",
+            "artistTranslation": "Gekidan Record",
+            "bpm": "156",
+            "difficultyClass": "expert",
+            "level": 14,
+            "hasShock": false
+        },
+        {
+            "name": "High School Love",
+            "jacket": "High School Love.png",
+            "nameTranslation": "",
+            "artist": "DJ YOSHITAKA feat.DWP",
+            "artistTranslation": "",
+            "bpm": "180",
+            "difficultyClass": "expert",
+            "level": 13,
+            "hasShock": false
+        }
+    ],
+    "bracketActive": false,
+    "bracketPicks": [
+        {
+            "name": "POSSESSION",
+            "jacket": "POSSESSION.png",
+            "nameTranslation": "",
+            "artist": "TAG underground",
+            "artistTranslation": "",
+            "bpm": "185-370",
+            "difficultyClass": "expert",
+            "level": 17,
+            "hasShock": false
+        },
+        {
+            "name": "Anti-Matter",
+            "jacket": "Anti-Matter.png",
+            "nameTranslation": "",
+            "artist": "Orbit1 & Milo",
+            "artistTranslation": "",
+            "bpm": "100-400",
+            "difficultyClass": "challenge",
+            "level": 18,
+            "hasShock": false
+        },
+        {
+            "name": "Life is beautiful",
+            "jacket": "Life is beautiful.png",
+            "nameTranslation": "",
+            "artist": "BEMANI Sound Team \"猫叉Master\"",
+            "artistTranslation": "BEMANI Sound Team \"Nekomata Master\"",
+            "bpm": "155",
+            "difficultyClass": "expert",
+            "level": 16,
+            "hasShock": false
+        },
+        {
+            "name": "GAIA",
+            "jacket": "GAIA.png",
+            "nameTranslation": "",
+            "artist": "猫叉L.E.D.Master+",
+            "artistTranslation": "Nekomata L.E.D.Master+",
+            "bpm": "90-180",
+            "difficultyClass": "expert",
+            "level": 16,
+            "hasShock": false
+        },
+        {
+            "name": "Another Phase",
+            "jacket": "Another Phase.png",
+            "nameTranslation": "",
+            "artist": "TAG",
+            "artistTranslation": "",
+            "bpm": "160",
+            "difficultyClass": "expert",
+            "level": 15,
+            "hasShock": false
+        },
+        {
+            "name": "Another Phase",
+            "jacket": "Another Phase.png",
+            "nameTranslation": "",
+            "artist": "TAG",
+            "artistTranslation": "",
+            "bpm": "160",
+            "difficultyClass": "challenge",
+            "level": 16,
+            "hasShock": true
+        },
+        {
+            "name": "打打打打打打打打打打",
+            "jacket": "Dadadadadadadadadada.png",
+            "nameTranslation": "Dadadadadadadadadada",
+            "artist": "ヒゲドライバー join. SELEN",
+            "artistTranslation": "Higedoraiba join. SELEN",
+            "bpm": "156",
+            "difficultyClass": "challenge",
+            "level": 16,
+            "hasShock": false
+        }
+    ]
+}
